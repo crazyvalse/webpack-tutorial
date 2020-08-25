@@ -1,5 +1,5 @@
 function foo () {
-  document.getElementById('app').innerHTML = moment().format('dddd')
+  document.getElementById('app').innerText = moment().format('dddd')
 }
 
 foo()
