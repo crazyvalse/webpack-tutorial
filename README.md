@@ -17,7 +17,7 @@ TODO
 https://github.com/GoogleChromeLabs/webpack-libs-optimizations
 https://github.com/GoogleChromeLabs/webpack-training-project
 
-## <a href="#t01">1.一个简单页面</a>
+## <a id="t01">1.一个简单页面</a>
 这个只是一个普通的页面，使用script标签引入js文件。
 
 目标：在`id=app`的div中显示当前的文章。
