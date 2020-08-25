@@ -1,7 +1,8 @@
 # 手把手教你创建一个 webpack的骨架
 [01]: https://webpack.js.org/guides/
 [02]: https://www.webpackjs.com/guides/
-
+[11]: http://momentjs.cn/
+[21]: https://docs.npmjs.com/creating-a-package-json-file 
 ## 前言
 我发现有很多前端同学在**快速**实现产品经理**验证性**需求的时候，往往会采用简单的页面来实现。
 
@@ -49,11 +50,6 @@ https://github.com/GoogleChromeLabs/webpack-training-project
 
 目标：在`id=app`的div中显示当前的日期。
 
-方法：
-- 使用`moment.js`来处理日期
-- 在`index.js`中，添加`foo()`方法来显示日期
-- 使用`<script>`标签引入所需`js`
-
 例子：[examples/01-fisrt-example](./examples/01-fisrt-example)
 
 index.html
@@ -89,6 +85,74 @@ foo()
 ![截图](./imgs/01.png)
 
 ## <a id="t02">2. 使用webpack构建项目</a>
-根据 [中文文档][02] 中的介绍，我们可以使用webpack构建第一个项目。
+说明：根据 [中文文档][02] 中的介绍，我们可以使用webpack构建第一个项目。
 
 ![使用webpack打包](./imgs/21.png)
+
+目标：
+  - 使用 webpack 命令打包 JS
+
+步骤：
+  - 调整文件夹结构
+  - 初始化项目
+  - 安装 webpack
+  - 安装 [moment.js][11] 库
+  - 通过 import方式引入 [moment.js][11] 库
+  - 调整 index.html
+  - 运行 npx webpack
+  
+例子：[examples/02-first-webpack](./examples/02-first-webpack)
+
+#### a. 调整文件夹结构
+
+![调整文件夹结构](./imgs/22.png)
+
+#### b. 创建 [package.json][21] 文件
+在项目根目录下，使用 `npm init -y` 快速创建 [package.json][21] 文件，也可以使用 `npm init` 命令，分步创建 [package.json][21] 文件。
+
+```
+> npm init -y
+Wrote to /github/create-webpack-project-step-by-step/examples/02-first-webpack/package.json:
+
+{
+  "name": "02-first-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
+```
+#### c. 安装 webpack 依赖以及 moment.js
+通过运行yarn命令来安装 webpack 和 moment.js的依赖。
+```bash
+yarn add webpack webpack-cli moment
+```
+
+package.json
+```json
+{
+  "name": "02-first-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.26.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}
+
+```
+
