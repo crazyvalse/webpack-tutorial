@@ -345,7 +345,40 @@ body {
 
 ```
 
+### 运行结果
+运行以下命令，查看结果
+```bash
+> yarn #安装依赖
+> npm run dev
+```
 
+打开 <http://0.0.0.0:8080/> 地址查看结果：
+
+![运行结果](./imgs/01.png)
+
+## 添加 babel
+
+[babel](https://www.babeljs.cn/) 是一个 JavaScript 编译器，允许我们在项目中使用下一代JS语法(ES 6 7 8 9...)。
+
+比如箭头函数 ：
+
+```javascript
+// Babel 输入： ES2015 箭头函数
+[1, 2, 3].map((n) => n + 1);
+
+// Babel 输出： ES5 语法实现的同等功能
+[1, 2, 3].map(function(n) {
+  return n + 1;
+});
+```
+
+步骤：
+
+- 安装依赖
+- 调整webpack配置文件
+- 添加 .babelrc 配置文件 https://www.babeljs.cn/docs/configuration
+- 添加 polyfill 配置 https://babeljs.io/docs/en/babel-polyfill https://babeljs.io/docs/en/babel-preset-env 
+- 
 
 
 ------------------------------------------------------------------------
