@@ -1,10 +1,12 @@
-# 手把手教你创建一个 webpack的骨架
+# 手把手教你创建一个 webpack 工程
+
 [01]: https://webpack.js.org/guides/
 [02]: https://www.webpackjs.com/guides/
 [11]: http://momentjs.cn/
 [21]: https://docs.npmjs.com/creating-a-package-json-file 
+
 ## 前言
-我发现有很多前端同学在**快速**实现产品经理**验证性**需求的时候，往往会采用简单的页面来实现。
+我发现有很多前端同学在**快速**实现产品经理**验证性**需求的时候，往往会采用简单的页面。
 
 简单的html页面确实可以快速搭建出一个demo出来。但是随着迭代的推进，越来越多的功能堆砌在了这个页面上面，最后难以扩展、难以维护。
 
@@ -14,7 +16,7 @@
 
 因此，希望前端同学能够通过这个文档学会：
 
-- 一个简单的webpack工程（开发与生成分离）
+- 一个基本的webpack工程（开发与生成分离）
 - 添加 babel
 - 添加 eslint
 - 添加 prettier
@@ -40,7 +42,7 @@
 如果有诸多不清楚的地方，强烈建议先学习一下 [官方文档][01]，也可以看一下[中文文档][02] 。里面的教程非常棒！！！
 > **注意**：中文文档更新不及时。如果中文文档中的示例不好使，可以查看[官方文档][01]。
 
-例子：[02-base](./examples/02-base)
+例子：[01-base](./examples/01-base)
 
 ### package.json
 
@@ -62,11 +64,11 @@
 [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer): 分析打包出来的文件 \
 [webpack-merge](https://www.npmjs.com/package/webpack-merge): 合并数组和对象，但不是覆盖！！！ 
 
-[package.json](./examples/02-base/package.json)
+[package.json](./examples/01-base/package.json)
 
 ```json
 {
-  "name": "02-base",
+  "name": "01-base",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -101,7 +103,7 @@
 
 > 本例是参考了 [官方的例子](https://webpack.js.org/guides/production/)，并做了一点调整。 [中文文档](https://www.webpackjs.com/guides/production/) 中的例子有点老，不适用于 webpack 4+。
 
-[build/webpack.base.js](./examples/02-base/build/webpack.base.js):
+[build/webpack.base.js](./examples/01-base/build/webpack.base.js):
 
 ```javascript
 const path = require('path')
@@ -128,7 +130,7 @@ module.exports = {
 
 > **注意**: output.filename 不能使用 [chunkhash]，只能使用 [hash]，否则在 **开发模式(dev)** 下会报错。
 
-[build/webpack.dev.js](./examples/02-base/build/webpack.dev.js)
+[build/webpack.dev.js](./examples/01-base/build/webpack.dev.js)
 
 ```javascript
 // 合并数组和对象，但不是覆盖！！！
@@ -163,7 +165,7 @@ module.exports = merge(base, {
 })
 ```
 
-[build/webpack.prod.js](./examples/02-base/build/webpack.prod.js)
+[build/webpack.prod.js](./examples/01-base/build/webpack.prod.js)
 
 ```javascript
 const path = require('path')
@@ -264,6 +266,7 @@ module.exports = webpackConfig
 在 `webpack.dev.js` 与 `webpack.prod.js` 中使用了功能强大的 `mode` 和 `devtool`。
 
 ##### mode
+
 webpack 4+ 提供了 [mode](https://webpack.js.org/configuration/mode/) 配置选项，能够自动调用webpack的优化策略。
 
 ```
@@ -282,6 +285,7 @@ module.exports = {
 在生产模式下，会自动引用 FlagDependencyUsagePlugin、FlagIncludedChunksPlugin、ModuleConcatenationPlugin、NoEmitOnErrorsPlugin、OccurrenceOrderPlugin、SideEffectsFlagPlugin 及 TerserPlugin。
 
 ##### devtool
+
 [devtool](https://www.webpackjs.com/configuration/devtool/) 选项控制是否生成，以及如何生成 [source map](https://blog.teamtreehouse.com/introduction-source-maps)。
 
 在 `webpack.dev.js` 中，主要使用以下两种 source map：
@@ -296,19 +300,65 @@ module.exports = {
 - nosource-source-map: 创建的source map 不包括 源代码内容。只映射客户端上的堆栈信息，不会暴露所有源代码。
 
 #### 其他配置
+
 在 `webpack.dev.js` 中，添加了 [devServer](https://www.webpackjs.com/guides/development/#%E4%BD%BF%E7%94%A8-webpack-dev-server) 以便于开发过程中**模块热更新**。
 
 在 `webpack.prod.js` 中，添加了 `optimization.slitChunks.chunks` ([SlitChunksPlugin](https://webpack.js.org/guides/code-splitting/#splitchunksplugin)) 选项，以把公共依赖抽出来，放到一个公用的chunk中。也做了少许优化。
 
+### 其他文件
 
+[index.js](./examples/01-base/src/index.js)
+
+```javascript
+import './assets/style.css'
+
+function foo () {
+  document.body.innerText = 'hello world'
+}
+
+foo()
+
+```
+
+[assets/style.css](./examples/01-base/src/assets/style.css)
+
+```css
+body {
+  background-color: red;
+}
+```
+
+
+[index.html](./examples/01-base/index.html)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>模板</title>
+</head>
+<body>
+
+</body>
+</html>
+
+```
+
+
+
+
+------------------------------------------------------------------------
 ## 参考
+
 npm 文档： <https://docs.npmjs.com> \
 webpack官方文档： <https://webpack.js.org/> \
 webpack中文文档： <https://www.webpackjs.com/>
 
 ## 推荐网站：
+
 十分钟学会markdown语法： <https://commonmark.org/help/>
-  
+
 备忘:
 
 https://github.com/GoogleChromeLabs/webpack-libs-optimizations
