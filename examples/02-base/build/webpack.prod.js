@@ -23,8 +23,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const base = require('./webpack.base')
+const config = {
+  bundleAnalyzerReport: false,
+  productionGzip: true,
+}
 
-module.exports = merge(base, {
+const webpackConfig = merge(base, {
   mode: 'production',
   output: {
     filename: '[name].[chunkhash].js',
@@ -52,8 +56,6 @@ module.exports = merge(base, {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
-    new CompressionPlugin(),
-    new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
@@ -66,3 +68,27 @@ module.exports = merge(base, {
     })
   ]
 })
+
+// 生成 gzip 文件
+// https://www.npmjs.com/package/compression-webpack-plugin
+if (config.productionGzip) {
+  const CompressionWebpackPlugin = require('compression-webpack-plugin')
+  webpackConfig.plugins.push(
+    new CompressionWebpackPlugin({
+      test: new RegExp( //只打包 js和css 文件
+        '\\.(js|css)$'
+      ),
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  )
+}
+
+// 分析打包出来的文件
+// https://www.npmjs.com/package/webpack-bundle-analyzer
+if (config.bundleAnalyzerReport) {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+}
+
+module.exports = webpackConfig
