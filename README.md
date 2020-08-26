@@ -53,7 +53,7 @@
 }
 ```
 
-同时，引用常用的一些`plugin`：
+同时，引用一些常用的`plugin`：
 
 [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin): 清除 dist 文件夹 \
 [compression-webpack-plugin](https://www.npmjs.com/package/compression-webpack-plugin): 生成 gzip 文件 \
@@ -126,7 +126,7 @@ module.exports = {
 
 ```
 
-> **注意**: output.filename 不能使用 [chunkhash]，只能使用 [hash]，不然再 **开发模式(dev)** 下会报错。
+> **注意**: output.filename 不能使用 [chunkhash]，只能使用 [hash]，否则在 **开发模式(dev)** 下会报错。
 
 [build/webpack.dev.js](./examples/02-base/build/webpack.dev.js)
 
@@ -261,7 +261,7 @@ if (config.bundleAnalyzerReport) {
 
 module.exports = webpackConfig
 ```
-在 `webpack.dev.js` 与 `webpack.prod.js` 中配置了功能强大的 `mode` 和 `devtool`。
+在 `webpack.dev.js` 与 `webpack.prod.js` 中使用了功能强大的 `mode` 和 `devtool`。
 
 ##### mode
 webpack 4+ 提供了 [mode](https://webpack.js.org/configuration/mode/) 配置选项，能够自动调用webpack的优化策略。
@@ -282,16 +282,24 @@ module.exports = {
 在生产模式下，会自动引用 FlagDependencyUsagePlugin、FlagIncludedChunksPlugin、ModuleConcatenationPlugin、NoEmitOnErrorsPlugin、OccurrenceOrderPlugin、SideEffectsFlagPlugin 及 TerserPlugin。
 
 ##### devtool
-[devtool](https://www.webpackjs.com/configuration/devtool/) 选项控制是否生成，以及如何生成 source map。
+[devtool](https://www.webpackjs.com/configuration/devtool/) 选项控制是否生成，以及如何生成 [source map](https://blog.teamtreehouse.com/introduction-source-maps)。
 
+在 `webpack.dev.js` 中，主要使用以下两种 source map：
+
+- cheap-module-eval-source-map: 低开销的[source-map](https://blog.teamtreehouse.com/introduction-source-maps)，但只映射行数。（推荐）
+- eval-source-map: 初始化source map的时候比较慢，但是重新构建时，提供比较快的速度，并能正确映射出报错的位置。
+
+在 `webpack.prod.js` 中，主要使用以下三种 source map：
+
+- source-map: 整个source map 作为独立文件生成，并为bundle添加一个引用注释。(推荐！需在**nginx**中设置访问.map文件的**ip白名单**，以保护代码安全。)
+- hidden-source-map: hidden-source-map 与source-map 相同，但是不会为bundle添加引用注释。
+- nosource-source-map: 创建的source map 不包括 源代码内容。只映射客户端上的堆栈信息，不会暴露所有源代码。
+
+#### 其他配置
 在 `webpack.dev.js` 中，添加了 [devServer](https://www.webpackjs.com/guides/development/#%E4%BD%BF%E7%94%A8-webpack-dev-server) 以便于开发过程中**模块热更新**。
 
-以及强大的 [devtool](https://www.webpackjs.com/configuration/devtool/):
+在 `webpack.prod.js` 中，添加了 `optimization.slitChunks.chunks` ([SlitChunksPlugin](https://webpack.js.org/guides/code-splitting/#splitchunksplugin)) 选项，以把公共依赖抽出来，放到一个公用的chunk中。也做了少许优化。
 
-- 'cheap-module-eval-source-map': 低开销的[source-map](https://blog.teamtreehouse.com/introduction-source-maps)，但只映射行数。（推荐在开发环境中使用）
-- 'eval-source-map': 初始化source map的时候比较慢，但是重新构建时，提供比较快的速度，并能正确映射出报错的位置。
-
-在 `webpack.prod.js` 中，添加了
 
 ## 参考
 npm 文档： <https://docs.npmjs.com> \
