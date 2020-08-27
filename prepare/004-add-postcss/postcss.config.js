@@ -1,9 +1,9 @@
 module.exports = {
   plugins: [
+    require('stylelint'),
     require('precss'),
     // require('autoprefixer'), // 已经包含在 post-cssnext 中了
     require('postcss-cssnext'),
     require('postcss-import'),
-    require('stylelint'),
   ]
 }
