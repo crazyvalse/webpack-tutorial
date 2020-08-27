@@ -25,7 +25,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const base = require('./webpack.base')
 const config = {
   bundleAnalyzerReport: false,
-  productionGzip: true,
+  productionGzip: true
 }
 
 const webpackConfig = merge(base, {
@@ -44,12 +44,23 @@ const webpackConfig = merge(base, {
     rules: [
       {
         test: /\.css$/i,
-        use: [{
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            esModule: true,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true
+            }
           },
-        }, 'css-loader']
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          }
+        ]
       }
     ]
   },
@@ -75,9 +86,7 @@ if (config.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
-      test: new RegExp( //只打包 js和css 文件
-        '\\.(js|css)$'
-      ),
+      test: new RegExp('\\.(js|css)$'), //只打包 js和css 文件
       threshold: 10240,
       minRatio: 0.8
     })

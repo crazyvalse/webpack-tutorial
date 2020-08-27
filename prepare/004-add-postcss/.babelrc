@@ -3,6 +3,7 @@
     [
       "@babel/preset-env",
       {
+        "corejs": "3",
         "debug": false,
         "useBuiltIns": "entry"
       }
@@ -10,11 +11,7 @@
   ],
   "plugins": [
     [
-      "@babel/plugin-transform-runtime",
-      {
-        "corejs": false,
-        "regenerator": false
-      }
+      "@babel/plugin-transform-runtime"
     ]
   ]
 }

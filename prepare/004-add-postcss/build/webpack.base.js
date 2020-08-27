@@ -12,7 +12,18 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          }
+        ]
       },
       {
         enforce: 'pre',
@@ -23,7 +34,7 @@ module.exports = {
           cache: true,
           fix: false, // 自动修复，对ide 不够友好
           failOnError: true, // 如果有格式错误，不进行编译
-          failOnWarning: true,
+          failOnWarning: true
         }
       },
       {

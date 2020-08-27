@@ -1,3 +1,13 @@
+::placeholder {
+  color: gray;
+}
+
 body {
   background-color: red;
+}
+
+.example {
+  display: flex;
+  position: relative;
+  transform: translate(10, 10);
 }
