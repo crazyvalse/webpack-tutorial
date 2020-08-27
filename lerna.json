@@ -1,0 +1,14 @@
+{
+  "version": "independent",
+  "npmClient": "yarn",
+  "command": {
+    "bootstrap": {
+      "hoist": true
+    }
+  },
+  "packages": [
+    "examples/*",
+    "prepare/*"
+  ],
+  "useWorkspaces": true
+}

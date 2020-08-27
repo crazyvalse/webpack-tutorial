@@ -378,7 +378,17 @@ body {
 - 调整webpack配置文件
 - 添加 .babelrc 配置文件 https://www.babeljs.cn/docs/configuration
 - 添加 polyfill 配置 https://babeljs.io/docs/en/babel-polyfill https://babeljs.io/docs/en/babel-preset-env 
-- 
+-  
+
+### prettier && .editorconfig
+
+### eslint
+
+- eslint
+- prettier
+- babel-eslint
+- eslint-loader
+
 
 
 ------------------------------------------------------------------------
@@ -397,3 +407,31 @@ webpack中文文档： <https://www.webpackjs.com/>
 https://github.com/GoogleChromeLabs/webpack-libs-optimizations
 
 https://github.com/GoogleChromeLabs/webpack-training-project
+
+babel: https://blog.csdn.net/i10630226/article/details/108038087
+
+babel: https://blog.liuyunzhuge.com/tags/babel/
+
+webpack相关的文档： https://blog.csdn.net/i10630226
+
+.editorconfig: https://juejin.im/post/6860440041039069191
+
+.prettier: https://juejin.im/post/6860440041039069191
+
+prettier: https://juejin.im/post/6844903904585482253
+
+https://github.com/prettier/eslint-plugin-prettier
+
+https://github.com/webpack-contrib/eslint-loader
+
+https://juejin.im/user/3474112476622350
+
+https://www.npmjs.com/package/babel-eslint
+
+https://github.com/webpack-contrib/eslint-loader
+
+https://juejin.im/post/6860440041039069191#heading-13
+
+https://juejin.im/post/6861925256995700744
+
+https://www.jianshu.com/p/7473376f5a11

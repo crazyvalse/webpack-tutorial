@@ -1,0 +1,36 @@
+{
+  "name": "create-webpack-project-step-by-step",
+  "private": true,
+  "version": "1.0.0",
+  "description": "This is a cookbook createing a webpack project step by step",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+  },
+  "workspaces": [
+    "examples/*",
+    "prepare/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crazyvalse/create-webpack-project-step-by-step.git"
+  },
+  "keywords": [
+    "webpack",
+    "eslint",
+    "babel",
+    "postcss",
+    "stylelint"
+  ],
+  "author": "Isaac Gu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crazyvalse/create-webpack-project-step-by-step/issues"
+  },
+  "homepage": "https://github.com/crazyvalse/create-webpack-project-step-by-step#readme",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
