@@ -34,9 +34,10 @@
 
 1. [webpack 工程](#t01)
 2. [添加 babel](#t02)
-3. [添加 prettier](#t03)
-4. [添加 eslint](#t04)
-5. [添加 postcss](#t05)
+3. [添加 .editorconfig](#t03)
+4. [添加 prettier](#t04)
+5. [添加 eslint](#t05)
+6. [添加 eslint-loader](#t06)
 
 ## <a id="t01">1.一个生产与开发分离的 webpack 工程</a>
 
@@ -653,6 +654,8 @@ document.body.innerText = '这个是 '.concat(i)
 
 [babel 相关知识](#r-babel)
 
+---
+
 ## <a id="t03">3. 添加 editorconfig</a>
 
 ![](https://editorconfig.org/logo.png)
@@ -771,6 +774,8 @@ vscode 可参考：
 
 ```
 
+---
+
 ## <a id="t05">5. ESLint</a>
 
 `.editorconfig` 与 `prettier` 可以自动调整代码风格，但是却无法约束语法。因此，还是需要 [ESLint](https://eslint.org/docs/user-guide/getting-started) 这样专业的代码**语法**检查工具。
@@ -799,6 +804,38 @@ yarn add eslint
 ```
 
 #### 5.2.2 生成 .eslintrc 文件
+
+创建 `.eslintrc.js` 文件有两种方法：
+
+- 直接创建 `.eslintrc.js` 文件
+- 运行命令生成 `.eslintrc.js` 文件
+
+##### 方法一：直接使用配置好的 `.eslintrc.js` 文件
+
+安装依赖
+
+```bash
+yarn add eslint-config-standard eslint-plugin-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-node -D
+```
+
+创建 `.eslintrc.js` 文件
+
+```javascript
+module.exports = {
+  env: {
+    browser: true,
+    es2020: true
+  },
+  extends: ['standard'],
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: 'module'
+  },
+  rules: {}
+}
+```
+
+##### 方法二： 自动生成 `.eslintrc.js` 文件
 
 安装完 `eslint` 后，运行 `npx eslint --init` 以便自动生成 `.eslintrc` 配置文件。
 
@@ -917,15 +954,25 @@ module.exports = {
 }
 ```
 
-动态例子中最后一步报错了，但是不要紧。因为后面会用 prettier 代码风格替代 standard 风格风格：
+**动态例子**
 
 ![](./imgs/eslint-init.gif)
 
 #### 5.2.3 添加 eslint-plugin-prettier 与 eslint-config-prettier 插件
 
-[eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier) 插件会调用 prettier 对你的代码风格进行检查。
+接下来我们会安装两个插件，让 `prettier` 能够更好的配合 `eslint` 检查我们的代码。
 
-Prettier 与 Linter 工具配合的时候，配置会彼此冲突。为了解决这个问题，可以使用 [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier)插件，让 Prettier 的配置覆盖 EsLint 的配置。
+[eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier)：插件会调用 prettier 对你的代码风格进行检查。
+
+[eslint-config-prettier](https://github.com/prettier/eslint-config-prettier)： Prettier 与 Linter 工具配合的时候，配置会彼此冲突。为了解决这个问题，可以使用 [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier)插件，让 Prettier 的配置覆盖 EsLint 的配置。
+
+##### 安装插件
+
+```bash
+yarn add eslint-plugin-prettier eslint-config-prettier eslint-config-recommended -D
+```
+
+#### 5.2.4 调整 .eslintrc.js 文件
 
 我们可以使用 prettier 提供的配置 `plugin:prettier/recommended`，它会做三件事：
 
@@ -933,15 +980,9 @@ Prettier 与 Linter 工具配合的时候，配置会彼此冲突。为了解决
 - 设置 `prettier/prettier` rule 为 "error"
 - 继承 `eslint-config-prettier` 的配置
 
-##### 安装插件
+具体流程：在 `extends` 列表中，添加 'eslint:recommended' 和 'plugin:prettier/recommended'。
 
-```bash
-yarn add eslint-plugin-prettier eslint-config-prettier
-```
-
-#### 5.2.4 调整 .eslintrc.js 文件
-
-在 `extends` 列表中，添加 'eslint:recommended' 和 'plugin:prettier/recommended'。
+[.eslintrc.js](./examples/04-add-eslint/.eslintrc.js)
 
 ```javascript
 module.exports = {
@@ -959,21 +1000,82 @@ module.exports = {
 
 ### 5.3 测试
 
+#### 调整 `src/index.js`
+
+[src/index.js](./examples/04-add-eslint/src/index.js)
+
+```
+const bar = {
+  a: {
+    b: 123,
+    c: {
+      d: 'hello',
+      e () {
+        // XXXXXX e后括号的格式不对
+        console.info(123)
+      }
+    }
+  }
+}
+
+// XXXXXX规则中，不能以分号结尾。
+const bb = {
+  ...bar,
+  app: [1, 2, 3, 4],
+  bpp: 'hello world'.includes('ll')
+};
+
+document.body.innerText = `这个是 ${JSON.stringify(bb)}`
+```
+
+#### 运行命令
+
 运行 `npx eslint src/**/*.js` 命令来检查工程中的 js 语法，来验证 eslint 是否配置成功。
 
-### 4.4 添加 eslint-loader
+#### 查看结果
+
+```
+npx eslint src/**/*.js
+
+/Users/CodingNutsZac/Documents/founder/git/test/test-webpack-tutorial/src/index.js
+   7:8  error  Delete `·`  prettier/prettier
+  19:2  error  Delete `;`  prettier/prettier
+
+✖ 2 problems (2 errors, 0 warnings)
+  2 errors and 0 warnings potentially fixable with the `--fix` option.
+
+```
+
+到目前为止，`eslint配置`正确。
+
+### 5.4 总结
+
+添加 `eslint` 的步骤
+
+- 安装依赖
+- 生成 `.eslintrc` 文件
+- 添加 `eslint-plugin-prettier` 插件
+- 调整 `.eslintrc` 文件
+
+---
+
+## <a id="t06">6. 添加 eslint-loader</a>
 
 <img src="./imgs/eslint-loader.png" height="200" alt="browerslist" align=center />
 
 自此 eslint 和 prettier 都添加完了，但是无法通过 `webpack` 自动提示。因此这一步中，我们在项目中添加 [eslint-loader](https://github.com/webpack-contrib/eslint-loader)。
 
-#### 4.4.1 安装 eslint-loader
+#### 6.1 安装 eslint-loader
 
 ```bash
-yarn add eslint-loader
+yarn add eslint-loader -D
 ```
 
-#### 4.4.2 调整 `webpack.base.js` 的配置
+#### 6.2 调整 `webpack.base.js` 的配置
+
+添加 `babel-loader` 的配置
+
+[build/webpack.base.js](./examples/04-add-eslint/build/webpack.base.js)
 
 ```javascript
 const path = require('path')
@@ -1020,7 +1122,9 @@ module.exports = {
 }
 ```
 
-### 4.5 测试 eslint 是否生效
+### 6.3 测试 eslint 是否生效
+
+运行 `yarn run dev` 启动工程
 
 改写 `index.js`，来测试 `es-loader` 是否生效
 
@@ -1067,7 +1171,22 @@ Module Error (from /Users/CodingNutsZac/Documents/gitee/webpack-project-tutorial
 
 使用 webstorm 快捷键或者 vscode 快捷键进行修复，或者手动修复后，项目恢复正常。
 
-## <a id="t05">5. 添加 postcss</a>
+### 6.4 示例工程
+
+示例工程：[04-add-eslint](./examples/04-add-eslint)
+
+### 6.5 总结
+
+添加 eslint-loader 的步骤：
+
+- 安装依赖
+- 调整 webpack的配置。
+
+---
+
+# 以下未修改完
+
+## <a id="t07">7. 添加 postcss</a>
 
 [postcss](https://www.postcss.com.cn/) 是一个用 JavaScript 工具和插件转换 **CSS 代码**的工具。
 
