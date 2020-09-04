@@ -1,4 +1,4 @@
-# 手把手教你创建一个 webpack 工程 (编写中)
+# 手把手教你创建一个易维护的 webpack 工程 (编写中)
 
 [01]: https://webpack.js.org/guides/
 [02]: https://www.webpackjs.com/guides/
