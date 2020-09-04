@@ -25,7 +25,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const base = require('./webpack.base')
 const config = {
   bundleAnalyzerReport: false,
-  productionGzip: true,
+  productionGzip: true
 }
 
 const webpackConfig = merge(base, {
@@ -44,12 +44,13 @@ const webpackConfig = merge(base, {
     rules: [
       {
         test: /\.css$/i,
-        use: [{
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            esModule: true,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true
+            }
           },
-        }, // 在此添加 post-loader 的配置
           {
             loader: 'css-loader',
             options: {
@@ -59,16 +60,13 @@ const webpackConfig = merge(base, {
           {
             loader: 'postcss-loader'
           }
-          // END 在此添加 post-loader 的配置
         ]
       }
     ]
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].[chunkhash].css', // 调整输出css文件的名字
-    }),
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
@@ -88,9 +86,7 @@ if (config.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
-      test: new RegExp( //只打包 js和css 文件
-        '\\.(js|css)$'
-      ),
+      test: new RegExp('\\.(js|css)$'), //只打包 js和css 文件
       threshold: 10240,
       minRatio: 0.8
     })

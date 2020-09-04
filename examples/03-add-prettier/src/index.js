@@ -1,7 +1,9 @@
 const bar = {
   a: {
-    b: 123, c: {
-      d: 'hello', e () {
+    b: 123,
+    c: {
+      d: 'hello',
+      e () {
         console.info(123)
       }
     }
@@ -14,4 +16,4 @@ const bb = {
   bpp: 'hello world'.includes('ll')
 }
 
-document.body.innerText = `这个是 ${bb}`
+document.body.innerText = `这个是 ${JSON.stringify(bb)}`

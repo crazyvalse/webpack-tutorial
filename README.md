@@ -1,4 +1,4 @@
-# 手把手教你创建一个易维护的 webpack 工程 (编写中)
+# 手把手教你创建一个 webpack 工程 (编写中)
 
 [01]: https://webpack.js.org/guides/
 [02]: https://www.webpackjs.com/guides/
@@ -17,29 +17,32 @@
 
 希望前端同学能够通过这个文档学会：
 
-- webpack 工程（开发与生成分离）
-- 添加 babel：转义`ES6+`语法；
-- 添加 prettier：统一编码风格；
-- 添加 eslint：检验 js 语法；
+- webpack 工程（开发与生成分离）⭕️
+- 添加 babel：转义`ES6+`语法；⭕️
+- 添加 prettier：统一编码风格；⭕️
+- 添加 eslint：检验 js 语法；⭕️
 - 添加 babel-eslint：检查最新的 js 语法；
-- 添加 postcss：转义新一代的 css；
+- 添加 postcss：转义新一代的 css；⭕️
 - 添加 stylelint：检验 css 语法；
 - 添加 lint-staged 与 husky：提交代码前，强制进行代码检查；
 - 添加 commitlint：规范 commit 日志；
 - 备选 sass
 
+- 调整 devDependencies
+
 > **架构未必最优！如有好的建议，欢迎指出~**
 
 ## 目录：
 
-1. [webpack 工程](#t01)
-2. [添加 babel](#t02)
-3. [添加 .editorconfig](#t03)
-4. [添加 prettier](#t04)
-5. [添加 eslint](#t05)
-6. [添加 eslint-loader](#t06)
+1. [webpack 工程](#1-webpack-工程)
+2. [添加 babel](#2-添加-babel)
+3. [添加 .editorconfig](#3-添加-editorconfig)
+4. [添加 prettier](#4-添加-prettier)
+5. [添加 eslint](#5-添加-eslint)
+6. [添加 eslint-loader](#6-添加-eslint-loader)
+7. [添加 postcss-loader](#7-添加-postcss-loader)
 
-## <a id="t01">1.一个生产与开发分离的 webpack 工程</a>
+## 1. webpack 工程
 
 这个工程是根据 [官方文档][01] 中的示例搭建的，只是增加了几个`plugin`。
 
@@ -104,7 +107,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^5.0.1",
     "css-loader": "^4.2.2",
@@ -395,7 +398,7 @@ body {
 
 ---
 
-## <a id="t02">2. 添加 babel</a>
+## 2. 添加 babel
 
 ![](https://d33wubrfki0l68.cloudfront.net/7a197cfe44548cc1a3f581152af70a3051e11671/78df8/img/babel.svg)
 
@@ -656,7 +659,7 @@ document.body.innerText = '这个是 '.concat(i)
 
 ---
 
-## <a id="t03">3. 添加 editorconfig</a>
+## 3. 添加 editorconfig
 
 ![](https://editorconfig.org/logo.png)
 
@@ -698,7 +701,7 @@ done！
 
 ---
 
-## <a id="t04">4. 添加 prettier</a>
+## 4. 添加 prettier
 
 ![](./imgs/prettier.png)
 
@@ -776,7 +779,7 @@ vscode 可参考：
 
 ---
 
-## <a id="t05">5. ESLint</a>
+## 5. ESLint
 
 `.editorconfig` 与 `prettier` 可以自动调整代码风格，但是却无法约束语法。因此，还是需要 [ESLint](https://eslint.org/docs/user-guide/getting-started) 这样专业的代码**语法**检查工具。
 
@@ -1059,19 +1062,28 @@ npx eslint src/**/*.js
 
 ---
 
-## <a id="t06">6. 添加 eslint-loader</a>
+## 6. 添加 eslint-loader
 
 <img src="./imgs/eslint-loader.png" height="200" alt="browerslist" align=center />
 
 自此 eslint 和 prettier 都添加完了，但是无法通过 `webpack` 自动提示。因此这一步中，我们在项目中添加 [eslint-loader](https://github.com/webpack-contrib/eslint-loader)。
 
-#### 6.1 安装 eslint-loader
+### 6.1 步骤
+
+添加 eslint-loader 的步骤：
+
+- 安装依赖
+- 调整 webpack 的配置。
+
+### 6.2 具体流程
+
+#### 6.2.1 安装 eslint-loader
 
 ```bash
 yarn add eslint-loader -D
 ```
 
-#### 6.2 调整 `webpack.base.js` 的配置
+#### 6.2.2 调整 `webpack.base.js` 的配置
 
 添加 `babel-loader` 的配置
 
@@ -1180,13 +1192,13 @@ Module Error (from /Users/CodingNutsZac/Documents/gitee/webpack-project-tutorial
 添加 eslint-loader 的步骤：
 
 - 安装依赖
-- 调整 webpack的配置。
+- 调整 webpack 的配置。
 
 ---
 
-# 以下未修改完
+## 7. 添加 postcss
 
-## <a id="t07">7. 添加 postcss</a>
+![postcss](./imgs/postcss.1b20c651.png)
 
 [postcss](https://www.postcss.com.cn/) 是一个用 JavaScript 工具和插件转换 **CSS 代码**的工具。
 
@@ -1194,24 +1206,33 @@ Module Error (from /Users/CodingNutsZac/Documents/gitee/webpack-project-tutorial
 - postcss 能够将最新的**css 语法**转换成大多数浏览器都能理解的语法。
 - postcss 能够使用 `stylelint` 强化一致性约束避免样式表中的错误。
 
-### 5.1 安装 postcss-loader
+### 7.1 步骤
 
-同样的，我们在项目中直接使用 `postcss-loader` 来使用`postcss`的功能。
+- 安装 postcss-loader
+- 创建 `.postcssrc` 文件
+- 调整 webpack 的配置
+
+### 7.2 具体流程
+
+### 7.2.1 安装 postcss-loader
+
+同样的，我们在项目中直接使用 [postcss-loader](https://www.npmjs.com/package/postcss-loader) 来使用`postcss`的功能。 具体配置可参考： [postcss-loader](https://www.npmjs.com/package/postcss-loader)
 
 ```bash
-yarn add postcss-loader postcss-load-config
+yarn add postcss-loader -D
 ```
 
 安装 postcss 相关的 plugins
 
 ```bash
-yarn add postcss-cssnext postcss-import
+yarn add postcss-load-config postcss-preset-env postcss-import -D
 ```
 
-- postcss-cssnext：允许使用下一代 css 语法
+- postcss-load-config: 允许使用多种配置文件
+- postcss-preset-env：允许使用下一代 css 语法，根据 `browserslist` 进行转译。
 - postcss-import：@import
 
-### 5.2 创建 `.postcssrc.js` 文件
+### 7.2.2 创建 `.postcssrc.js` 文件
 
 ```javascript
 // .postcssrc.js
@@ -1219,12 +1240,12 @@ module.exports = {
   plugins: [
     require('postcss-import'), //
     // require('autoprefixer'), // 自动添加浏览器前缀（已经包含在 post-cssnext 中了）
-    require('postcss-cssnext') // 使用下一代css语法
+    require('postcss-preset-env')() // 使用下一代css语法
   ]
 }
 ```
 
-### 5.3 调整 `webpack.base.js`
+### 7.2.3 调整 `webpack.base.js`
 
 在 `webpack.base.js` 中，添加 `loader`。可参考 [postcss-loader](https://www.npmjs.com/package/postcss-loader)。
 
@@ -1246,7 +1267,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           'style-loader',
-          // 在此添加 post-loader 的配置
+          // 在此添加 postcss-loader 的配置
           {
             loader: 'css-loader',
             options: {
@@ -1256,7 +1277,7 @@ module.exports = {
           {
             loader: 'postcss-loader'
           }
-          // END 在此添加 post-loader 的配置
+          // END 在此添加 postcss-loader 的配置
         ]
       },
       // 在此添加 eslint-loader 的配置
@@ -1287,7 +1308,7 @@ module.exports = {
 }
 ```
 
-#### 4.4 调整 `webpack.prod.js`
+#### 7.2.4 调整 `webpack.prod.js`
 
 由于 `webpack.prod.js` 中 css 的配置与 base 中的不一样，所以需要分别配置。
 
@@ -1344,7 +1365,7 @@ const webpackConfig = merge(base, {
             options: {
               esModule: true
             }
-          }, // 在此添加 post-loader 的配置
+          }, // 在此添加 postcss-loader 的配置
           {
             loader: 'css-loader',
             options: {
@@ -1354,7 +1375,7 @@ const webpackConfig = merge(base, {
           {
             loader: 'postcss-loader'
           }
-          // END 在此添加 post-loader 的配置
+          // END 在此添加 postcss-loader 的配置
         ]
       }
     ]
@@ -1400,11 +1421,15 @@ if (config.bundleAnalyzerReport) {
 module.exports = webpackConfig
 ```
 
-#### 4.4 调整项目
+### 7.3 测试
+
+#### 7.3.1 调整项目
 
 调整项目中的文件以便于测试。
 
 调整 `style.css` 文件，并在 `index.js`中引用 css 文件
+
+[src/assets/style.css](./examples/05-add-postcss/src/assets/style.css)
 
 ```css
 ::placeholder {
@@ -1422,7 +1447,7 @@ body {
 }
 ```
 
-`index.js`文件
+[src/index.js](./examples/05-add-postcss/src/index.js)
 
 ```javascript
 import './assets/style.css'
@@ -1430,7 +1455,7 @@ import './assets/style.css'
 document.body.innerHTML = `<div class="example">hello world</div>`
 ```
 
-#### 4.5 测试打包
+#### 7.3.2 测试打包
 
 运行打包命令
 
@@ -1449,6 +1474,10 @@ npm run build
   color: gray;
 }
 
+:-ms-input-placeholder {
+  color: gray;
+}
+
 ::-ms-input-placeholder {
   color: gray;
 }
@@ -1459,6 +1488,7 @@ npm run build
 
 body {
   background-color: red;
+  color: white;
 }
 
 .example {
@@ -1467,20 +1497,37 @@ body {
   display: flex;
   position: relative;
   -webkit-transform: translate(10, 10);
-  transform: translate(10, 10);
+          transform: translate(10, 10);
 }
 
-/*# sourceMappingURL=app.2ae83414e4418720f37c.css.map*/
+
+/*# sourceMappingURL=app.css.map*/
 ```
 
-### 5. stylelint
+### 7.4 示例工程
 
-#### 5.1 安装 stylelint
+示例工程：[05-add-postcss](./examples/05-add-postcss)
+
+### 7.5 总结
+
+添加 `postcss-loader` 的步骤
+
+- 安装 postcss-loader
+- 创建 `.postcssrc` 文件
+- 调整 webpack 的配置
+
+---
+
+# 以下未修改完
+
+## 8. stylelint
+
+### 8.1 安装 stylelint
 
 运行命令安装 stylelint
 
 ```bash
-yarn add stylelint stylelint-config-standard
+yarn add stylelint stylelint-config-standard -D
 ```
 
 添加 `.stylelintrc` 配置文件
@@ -1497,10 +1544,9 @@ yarn add stylelint stylelint-config-standard
 module.exports = {
   plugins: [
     require('stylelint'), // 添加 stylelint 插件
-    require('precss'),
-    // require('autoprefixer'), // 已经包含在 post-cssnext 中了
-    require('postcss-cssnext'),
-    require('postcss-import')
+    require('postcss-import'), //
+    // require('autoprefixer'), // 自动添加浏览器前缀（已经包含在 post-cssnext 中了）
+    require('postcss-preset-env')() // 使用下一代css语法
   ]
 }
 ```
