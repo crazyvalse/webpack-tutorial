@@ -10,6 +10,6 @@ module.exports = {
   },
   // 'standard',
   plugins: ['prettier'],
-  extends: ['plugin:prettier/recommended', 'prettier/standard'],
+  extends: ["eslint:recommended", 'plugin:prettier/recommended', "prettier", 'prettier/standard'],
   rules: {}
 }

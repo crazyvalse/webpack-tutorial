@@ -14,10 +14,9 @@ module.exports = merge(base, {
     contentBase: '../dist',
     hot: true, // 热模块更新 - 局部更新
     host: '0.0.0.0', // 设置后，其他机器可以通过ip访问
-    port: '8080', // 端口
+    // port: '8080', // 端口
     quiet: false,
     clientLogLevel: 'warning',
-    proxy: {} // 跨域代理
   },
   // 'cheap-module-eval-source-map'低开销的source-map，但只映射行数。
   // 'eval-source-map'，初始化source map的时候比较慢，但是重新构建时，提供比较快的速度，并能正确映射出报错的位置
@@ -27,7 +26,7 @@ module.exports = merge(base, {
     new HtmlWebpackPlugin({
       filename: 'index.html', // 生成的文件名
       template: 'index.html', // 使用的模板文件
-      inject: true // 生成的script插到body底部
+      inject: true, // 生成的script插到body底部
     })
   ]
 })
