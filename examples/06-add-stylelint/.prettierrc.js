@@ -4,5 +4,6 @@ module.exports = {
   useTabs: false, //是否使用tab进行缩进
   semi: false, // 声明后带分号
   singleQuote: true, // 使用单引号
-  trailingComma: 'none'
+  trailingComma: 'none',
+  endOfLine: 'auto'
 }

@@ -3,8 +3,9 @@
 }
 
 body {
-  background-color: #000;
+  background-color: #00;
 }
+
 
 .example {
   display: flex;

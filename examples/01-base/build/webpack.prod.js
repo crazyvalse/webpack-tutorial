@@ -11,7 +11,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 // https://www.npmjs.com/package/webpack-bundle-analyzer
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-// 抽取css文件
+// 将CSS提取为独立的文件的插件，对每个包含css的js文件都会创建一个CSS文件，支持按需加载css和sourceMap
 // https://www.npmjs.com/package/mini-css-extract-plugin
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -21,6 +21,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 // 清理 dist 文件夹
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+
+// 压缩器 用于代替webpack自带的压缩器。
+const TerserJSPlugin = require('terser-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const base = require('./webpack.base')
 const config = {
@@ -38,6 +42,7 @@ const webpackConfig = merge(base, {
   // https://www.webpackjs.com/configuration/devtool/
   devtool: 'source-map',
   optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
     splitChunks: { chunks: 'all' }
   },
   module: {
@@ -55,7 +60,9 @@ const webpackConfig = merge(base, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].[chunkhash].css"
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',

@@ -14,7 +14,7 @@ module.exports = merge(base, {
     contentBase: '../dist',
     hot: true, // 热模块更新 - 局部更新
     host: '0.0.0.0', // 设置后，其他机器可以通过ip访问
-    port: '8080', // 端口
+    // port: '8080', // 端口
     quiet: false,
     clientLogLevel: 'warning',
     proxy: {} // 跨域代理

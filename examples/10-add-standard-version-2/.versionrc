@@ -1,0 +1,4 @@
+{
+  "commitUrlFormat": "https://git.fzyun.io/frontend/templates/webpack-sample/-/commit/{{hash}}",
+  "issueUrlFormat": "https://kb.fzyun.io/issues/{{id}}"
+}
